@@ -224,8 +224,8 @@ public class PlayerActivity extends Activity {
 		loader_stat.setVisibility(View.GONE);
 		player_pause.setVisibility(View.VISIBLE);
 		player_play.setVisibility(View.GONE);
-		back.setVisibility(View.GONE);
-		next.setVisibility(View.GONE);
+		back.setVisibility(View.INVISIBLE);
+		next.setVisibility(View.INVISIBLE);
 		setTotalTime();
 		setImage(song);
 		initMediaSeekBar();
@@ -240,8 +240,8 @@ public class PlayerActivity extends Activity {
 		loader_stat.setVisibility(View.GONE);
 		player_pause.setVisibility(View.GONE);
 		player_play.setVisibility(View.VISIBLE);
-		back.setVisibility(View.GONE);
-		next.setVisibility(View.GONE);
+		back.setVisibility(View.INVISIBLE);
+		next.setVisibility(View.INVISIBLE);
 		setTotalTime();
 		setImage(song);
 		update_nextBackButton();
