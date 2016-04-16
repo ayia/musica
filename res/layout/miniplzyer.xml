@@ -52,8 +52,9 @@
                 android:id="@+id/txt_songtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left"
                 android:singleLine="true"
+                android:textSize="15dp"
                 android:textColor="@android:color/white"
                 anytextview:typeface="Timber.ttf" />
 
@@ -61,11 +62,11 @@
                 android:id="@+id/txt_songartist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left"
                 android:singleLine="true"
-                android:textSize="14dp"
-                
-                android:textColor="@color/light_beige"
+             
+                android:textSize="10dp"
+                android:textColor="@color/accent_material_dark"
                 anytextview:typeface="Timber.ttf" />
         </LinearLayout>
     </RelativeLayout>

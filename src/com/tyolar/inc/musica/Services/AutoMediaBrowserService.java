@@ -179,6 +179,31 @@ public class AutoMediaBrowserService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
+	public void refrechNextPrevouse_ondelete(){
+		System.out.print("dddd");
+		if(mapp.getPlayerActivity()!=null){
+			mapp.getPlayerActivity().update_nextBackButton();
+		}
+		
+	
+		switch (getStat()) {
+		case Retreving:
+			break;
+		case Playing:
+			buildNotification(generateAction(android.R.drawable.ic_media_pause, "",
+					ACTION_PAUSE));
+			break;
+		case Pause:
+			buildNotification(generateAction(android.R.drawable.ic_media_play, "",
+					ACTION_PLAY));
+			break;
+		case stop:
+			
+			break;
+		}
+
+	}
+	
 	private void initMediaSessions() {
 		mSession = new MediaSession(getApplicationContext(),
 				"simple player session");

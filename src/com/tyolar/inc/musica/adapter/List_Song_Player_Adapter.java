@@ -105,17 +105,12 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 
 		// holder.index_img.setVisibility(View.GONE);
 		holder.track = getItem(position);
-//		if (mapp.getAudioWife().getInstance().getmUri().toString()
-//				.contains(holder.track.id)) {
-//			// holder.index_img.setVisibility(View.VISIBLE);
-//			holder.delete.setVisibility(View.GONE);
-//			convertView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-//			// holder.index_img
-//			// .setBackgroundResource(R.drawable.interlude_animation_list);
-//			// ((AnimationDrawable) holder.index_img.getBackground()).start();
-//
-//			mapp.getMusicaService().setSelectedtrackindex(position);
-//		}
+		if(mapp.getMusicService().getSongstoPlay()
+				.get(mapp.getMusicService().getSlectedindex()).getId()
+				==holder.track.getId()){
+			holder.delete.setVisibility(View.GONE);
+		}
+	
 
 		holder.delete.setOnClickListener(new OnClickListener() {
 
@@ -123,13 +118,19 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				try {
-	//remove
-					
-					invalidate();
+					// remove
+					song a = mapp.getMusicService().getSongstoPlay()
+							.get(mapp.getMusicService().getSlectedindex());
+					mapp.getMusicService().getSongstoPlay().remove(position);
+					mapp.getMusicService().setSlectedindex(
+							mapp.getMusicService().getSongstoPlay().indexOf(a));
 					context.update_nextBackButton();
+					invalidate();
+					mapp.getMusicService().refrechNextPrevouse_ondelete();
+				
 				} catch (Exception s) {
-					 app2 mapp = (app2) context.getApplicationContext();
-					 mapp.getInstance().trackException(s);
+					app2 mapp = (app2) context.getApplicationContext();
+					mapp.getInstance().trackException(s);
 					s.printStackTrace();
 				}
 			}
@@ -140,8 +141,9 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			
-				//play
+				mapp.getMusicService().setSlectedindex(position);
+				mapp.getMusicService().Play();
+				invalidate();
 			}
 		});
 

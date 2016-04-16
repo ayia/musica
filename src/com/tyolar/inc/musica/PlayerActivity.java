@@ -274,7 +274,10 @@ public class PlayerActivity extends Activity {
 	}
 
 	public void update_nextBackButton() {
-		 if (mapp.getMusicService().getSlectedindex() > 0) {
+		System.out.print("dddd");
+		 back.setVisibility(View.INVISIBLE);
+		 next.setVisibility(View.INVISIBLE);
+		if (mapp.getMusicService().getSlectedindex() > 0) {
 			 back.setVisibility(View.VISIBLE);
 		 }
 		 if (mapp.getMusicService().getSlectedindex() < mapp
