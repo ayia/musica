@@ -119,7 +119,9 @@ public class PlayerActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				onOverflowPressed(v, mapp.getMusicService().getSongstoPlay()
+						.get(mapp.getMusicService().getSlectedindex()));
+		
 			}
 		});
 		findViewById(R.id.playlist).setOnClickListener(new OnClickListener() {
@@ -128,6 +130,18 @@ public class PlayerActivity extends Activity {
 				showhideplayedmusic();
 			}
 		});
+		 final InterstitialAd mInterstitialAd = new InterstitialAd(this);
+		 mInterstitialAd.setAdUnitId("ca-app-pub-3908763514019803/6819661174");
+		 AdRequest adRequest = new AdRequest.Builder().addTestDevice(
+		 "SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID").build();
+		 mInterstitialAd.loadAd(adRequest);
+		 // Begin listening to interstitial & show ads.
+		 mInterstitialAd.setAdListener(new AdListener() {
+		 public void onAdLoaded() {
+		 mInterstitialAd.show();
+		 }
+		 });
+
 
 	}
 	private Handler mProgressUpdateHandler;
@@ -229,6 +243,7 @@ public class PlayerActivity extends Activity {
 		setTotalTime();
 		setImage(song);
 		initMediaSeekBar();
+		adp.notifyDataSetChanged();
 		mProgressUpdateHandler.postDelayed(mUpdateProgress, AUDIO_PROGRESS_UPDATE_TIME);
 		update_nextBackButton();
 	}
@@ -352,43 +367,43 @@ public class PlayerActivity extends Activity {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent();
-				song playedsong;
-				// mapp.getMusicaService().getSongtoplay()
-				// .get(mapp.getMusicaService().getSelectedtrackindex());
+				song playedsong=
+				 mapp.getMusicService().getSongstoPlay()
+				 .get(mapp.getMusicService().getSlectedindex());
 				switch (item.getItemId()) {
 
 				case R.id.save_quee:
-					// Staticui.create_playlist(getme(), mapp.getMusicaService()
-					// .getSongtoplay());
+					 Staticui.create_playlist(getme(), mapp.getMusicService()
+					 .getSongstoPlay());
 					break;
 
 				case R.id.add_playlist:
-					// Staticui.show_add_playlist_view(
-					// getme(),
-					// mapp.getMusicaService()
-					// .getSongtoplay()
-					// .get(mapp.getMusicaService()
-					// .getSelectedtrackindex()));
+					 Staticui.show_add_playlist_view(
+					 getme(),
+					 mapp.getMusicService()
+					 .getSongstoPlay()
+					 .get(mapp.getMusicService()
+					 .getSlectedindex()));
 					break;
 				case R.id.go_artist:
-					// artist d = new artist(playedsong.getArtistID(),
-					// playedsong
-					// .getArtist(), playedsong.getArtistArt());
-					// intent.putExtra("artist", d.toJson());
-					// mapp.getBaseactivity().startfragment(intent);
+					 artist d = new artist(playedsong.getArtistID(),
+					 playedsong
+					 .getArtist(), playedsong.getArtistArt());
+					 intent.putExtra("artist", d.toJson());
+					 mapp.getBaseactivity().startfragment(intent);
 					finish();
 					break;
 				case R.id.go_album:
-					// album album = new album(playedsong.getAlbumID(),
-					// playedsong
-					// .getAlbum(), playedsong.getArtist(), playedsong
-					// .getArtistID(), playedsong.getCoverArt(),
-					// playedsong.getArtistArt());
+					 album album = new album(playedsong.getAlbumID(),
+					 playedsong
+					 .getAlbum(), playedsong.getArtist(), playedsong
+					 .getArtistID(), playedsong.getCoverArt(),
+					 playedsong.getArtistArt());
 
 					Intent myIntent = new Intent(
 							getme(),
 							com.tyolar.inc.musica.activities.Album_Activity.class);
-					// myIntent.putExtra("album", album.toJson());
+					 myIntent.putExtra("album", album.toJson());
 					getme().startActivity(myIntent);
 
 					finish();

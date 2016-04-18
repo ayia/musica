@@ -19,6 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 //import com.google.android.gms.analytics.GoogleAnalytics;
@@ -62,23 +65,24 @@ public class MainActivity extends BaseActivity {
 			mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 			initview();
 
+			 final InterstitialAd mInterstitialAd = new InterstitialAd(this);
+			 mInterstitialAd.setAdUnitId("ca-app-pub-3908763514019803/6819661174");
+			 AdRequest adRequest = new AdRequest.Builder().addTestDevice(
+			 "SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID").build();
+			 mInterstitialAd.loadAd(adRequest);
+			 // Begin listening to interstitial & show ads.
+			 mInterstitialAd.setAdListener(new AdListener() {
+			 public void onAdLoaded() {
+			 mInterstitialAd.show();
+			 }
+			 });
+
 		}
 		LoadMiniPlayer();
 	
-		//
-		//
-		// final InterstitialAd mInterstitialAd = new InterstitialAd(this);
-		// mInterstitialAd.setAdUnitId("ca-app-pub-3908763514019803/6819661174");
-		// AdRequest adRequest = new AdRequest.Builder().addTestDevice(
-		// "SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID").build();
-		// mInterstitialAd.loadAd(adRequest);
-		// // Begin listening to interstitial & show ads.
-		// mInterstitialAd.setAdListener(new AdListener() {
-		// public void onAdLoaded() {
-		// mInterstitialAd.show();
-		// }
-		// });
-
+		
+		
+		
 	}
 	@Override
 	public void onResume() {

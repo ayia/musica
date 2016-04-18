@@ -1,7 +1,6 @@
 package com.tyolar.inc.musica.Services;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,11 +18,11 @@ import android.media.session.MediaSession;
 import android.media.session.MediaSessionManager;
 import android.os.IBinder;
 import android.os.StrictMode;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.tyolar.inc.musica.PlayerActivity;
 import com.tyolar.inc.musica.R;
 import com.tyolar.inc.musica.app2;
 import com.tyolar.inc.musica.model.apiurls;
@@ -50,7 +49,6 @@ public class AutoMediaBrowserService extends Service {
 	private MediaSession mSession;
 	app2 mapp;
 	private MediaController mController;
-	 
 
 	@Override
 	public void onCreate() {
@@ -104,8 +102,13 @@ public class AutoMediaBrowserService extends Service {
 
 	private void buildmusicNotification(NotificationCompat.Action action,
 			song song) {
-		 int playPauseButtonPosition = 0;
+		int playPauseButtonPosition = 0;
 		numMessages = 0;
+		Intent myIntent = new Intent(getApplicationContext(),
+				PlayerActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				getApplicationContext(), 0, myIntent,
+				Intent.FLAG_ACTIVITY_NEW_TASK);
 		String url = new apiurls().getArtimage();
 		url = url.replace("[sid]", mapp.getAngami_id()).replace("[id]",
 				song.getCoverArt());
@@ -117,7 +120,7 @@ public class AutoMediaBrowserService extends Service {
 		mapp.builder.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(song.getTitle())
 				.setContentText(song.getArtist()).setAutoCancel(false)
-				.setOngoing(true);
+				.setContentIntent(pendingIntent).setOngoing(true);
 
 		Target mTarget = new Target() {
 			@Override
@@ -137,7 +140,7 @@ public class AutoMediaBrowserService extends Service {
 		Picasso.with(this).load(url).into(mTarget);
 		mapp.builder.mActions.clear();
 		if (slectedindex > 0) {
-			playPauseButtonPosition=1;
+			playPauseButtonPosition = 1;
 			mapp.builder.addAction(generateAction(
 					android.R.drawable.ic_media_previous, "", ACTION_PREVIOUS));
 		} else {
@@ -147,7 +150,7 @@ public class AutoMediaBrowserService extends Service {
 		mapp.builder.addAction(action);
 
 		if (slectedindex < getSongstoPlay().size() - 1) {
-			playPauseButtonPosition=1;
+			playPauseButtonPosition = 1;
 			mapp.builder.addAction(generateAction(
 					android.R.drawable.ic_media_next, "", ACTION_NEXT));
 
@@ -155,8 +158,7 @@ public class AutoMediaBrowserService extends Service {
 			mapp.builder.addAction(new NotificationCompat.Action(0, "", null));
 		}
 
-		mapp.builder.setStyle(new NotificationCompat.MediaStyle()
-      );
+		mapp.builder.setStyle(new NotificationCompat.MediaStyle());
 	}
 
 	private void buildNotification(NotificationCompat.Action action) {
@@ -166,8 +168,6 @@ public class AutoMediaBrowserService extends Service {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(1, mapp.builder.build());
 	}
-
-	
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -179,31 +179,30 @@ public class AutoMediaBrowserService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	public void refrechNextPrevouse_ondelete(){
+	public void refrechNextPrevouse_ondelete() {
 		System.out.print("dddd");
-		if(mapp.getPlayerActivity()!=null){
+		if (mapp.getPlayerActivity() != null) {
 			mapp.getPlayerActivity().update_nextBackButton();
 		}
-		
-	
+
 		switch (getStat()) {
 		case Retreving:
 			break;
 		case Playing:
-			buildNotification(generateAction(android.R.drawable.ic_media_pause, "",
-					ACTION_PAUSE));
+			buildNotification(generateAction(android.R.drawable.ic_media_pause,
+					"", ACTION_PAUSE));
 			break;
 		case Pause:
-			buildNotification(generateAction(android.R.drawable.ic_media_play, "",
-					ACTION_PLAY));
+			buildNotification(generateAction(android.R.drawable.ic_media_play,
+					"", ACTION_PLAY));
 			break;
 		case stop:
-			
+
 			break;
 		}
 
 	}
-	
+
 	private void initMediaSessions() {
 		mSession = new MediaSession(getApplicationContext(),
 				"simple player session");
@@ -215,7 +214,7 @@ public class AutoMediaBrowserService extends Service {
 				super.onPlay();
 				Play();
 				showPlayView();
-				
+
 			}
 
 			@Override
@@ -263,6 +262,7 @@ public class AutoMediaBrowserService extends Service {
 	public void pause() {
 		getMediaPlayer().pause();
 	}
+
 	public void showLoading(song song) {
 		setStat(MediaplayerState.Retreving);
 		mapp.mini_player.showLoading(song);
@@ -279,18 +279,19 @@ public class AutoMediaBrowserService extends Service {
 				.setOngoing(true);
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(1, mapp.builder.build());
-		if(mapp.getPlayerActivity()!=null){
+		if (mapp.getPlayerActivity() != null) {
 			mapp.getPlayerActivity().setLoadingView(song);
 		}
 	}
+
 	public void showPlayView() {
 		setStat(MediaplayerState.Playing);
 		buildNotification(generateAction(android.R.drawable.ic_media_pause, "",
 				ACTION_PAUSE));
-		
+
 		song song = getSongstoPlay().get(getSlectedindex());
 		mapp.mini_player.setsong(song);
-		if(mapp.getPlayerActivity()!=null){
+		if (mapp.getPlayerActivity() != null) {
 			mapp.getPlayerActivity().setPlayingView(song);
 		}
 	}
@@ -302,14 +303,14 @@ public class AutoMediaBrowserService extends Service {
 		song song = getSongstoPlay().get(getSlectedindex());
 		mapp.mini_player.Pause();
 		pauseiscalled = true;
-		if(mapp.getPlayerActivity()!=null){
+		if (mapp.getPlayerActivity() != null) {
 			mapp.getPlayerActivity().setPauseView(song);
 		}
 	}
 
 	public void Play() {
 		if (pauseiscalled) {
-			getMediaPlayer().start();	
+			getMediaPlayer().start();
 		} else {
 			getMediaPlayer().pause();
 			relaxResources(true);
@@ -357,6 +358,14 @@ public class AutoMediaBrowserService extends Service {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				// TODO Auto-generated method stub
+				if (getMediaPlayer().getCurrentPosition() > 7) {
+
+					if (getSlectedindex() < getSongstoPlay().size() - 1) {
+						setSlectedindex(getSlectedindex() + 1);
+						Play();
+					} else
+						showPauseView();
+				}
 
 			}
 		});
@@ -394,12 +403,12 @@ public class AutoMediaBrowserService extends Service {
 		case Retreving:
 			break;
 		case Playing:
-//			handleAction(ACTION_PLAY);
+			// handleAction(ACTION_PLAY);
 			break;
 		case Pause:
-//			handleAction(ACTION_PAUSE);
-//			pause();
-//			showPauseView();
+			// handleAction(ACTION_PAUSE);
+			// pause();
+			// showPauseView();
 			break;
 		case stop:
 			break;

@@ -51,15 +51,15 @@
             <com.ctrlplusz.anytextview.AnyTextView
                 android:id="@+id/grid_item_title"
                 style="@style/TrackItemPrimaryText"
+                android:gravity="left|center_vertical"
                 android:text="Title "
-                android:gravity="left"
                 anytextview:typeface="Timber.ttf" />
 
             <com.ctrlplusz.anytextview.AnyTextView
                 android:id="@+id/grid_item_artist"
-                style="@style/TrackItemSecondaryText"
+               style="@style/TrackItemPrimaryText"
+                android:gravity="left|center_vertical"
                 android:layout_below="@id/grid_item_title"
-                android:layout_marginTop="5dp"
                 android:text="Aritst"
                 android:textColor="@color/orange"
                 android:textSize="10sp"
