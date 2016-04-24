@@ -69,7 +69,7 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 	private class ActorHolder {
 		public song track;
 		public ImageView layout_img;
-		// public ImageView index_img;
+		public ImageView index_img;
 		public com.ctrlplusz.anytextview.AnyTextView titel;
 		public TextView duration;
 		public TextView uploader;
@@ -88,7 +88,7 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 				.findViewById(R.id.grid_item_title);
 		holder.duration = (TextView) convertView
 				.findViewById(R.id.grid_item_subtext);
-		// holder.index_img = (ImageView) convertView.findViewById(R.id.index);
+		holder.index_img = (ImageView) convertView.findViewById(R.id.index);
 		holder.layout_img = (ImageView) convertView
 				.findViewById(R.id.grid_item_image);
 		holder.delete = (ImageView) convertView.findViewById(R.id.delete_icon);
@@ -103,14 +103,19 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 				.error(R.drawable.ic_music_note_black_48dp)
 				.into(holder.layout_img);
 
-		// holder.index_img.setVisibility(View.GONE);
+		holder.index_img.setVisibility(View.GONE);
 		holder.track = getItem(position);
-		if(mapp.getMusicService().getSongstoPlay()
-				.get(mapp.getMusicService().getSlectedindex()).getId()
-				==holder.track.getId()){
+		if (mapp.getMusicService().getSongstoPlay()
+				.get(mapp.getMusicService().getSlectedindex()).getId() == holder.track
+				.getId()) {
 			holder.delete.setVisibility(View.GONE);
+			holder.index_img.setVisibility(View.VISIBLE);
+//			convertView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+			 holder.index_img
+			 .setBackgroundResource(R.drawable.interlude_animation_list);
+			 ((AnimationDrawable) holder.index_img.getBackground()).start();
+
 		}
-	
 
 		holder.delete.setOnClickListener(new OnClickListener() {
 
@@ -127,7 +132,7 @@ public class List_Song_Player_Adapter extends BaseAdapter {
 					context.update_nextBackButton();
 					invalidate();
 					mapp.getMusicService().refrechNextPrevouse_ondelete();
-				
+
 				} catch (Exception s) {
 					app2 mapp = (app2) context.getApplicationContext();
 					mapp.getInstance().trackException(s);

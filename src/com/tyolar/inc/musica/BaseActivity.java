@@ -276,6 +276,7 @@ public class BaseActivity extends ActionBarActivity {
 
 	private void Playnext(song track) {
 		// TODO Auto-generated method stub
+		System.out.println("sddssd");
 		if (mapp.getMusicService().getSongstoPlay().size() > 0) {
 
 			if (!mapp.getMusicService().getSongstoPlay().contains(track))
@@ -286,7 +287,7 @@ public class BaseActivity extends ActionBarActivity {
 			else
 				mapp.getMusicService()
 						.getSongstoPlay()
-						.set(mapp.getMusicService().getSlectedindex() + 1,
+						.add(mapp.getMusicService().getSlectedindex() + 1,
 								track);
 			if (mapp.mini_player.isloaded)
 				mapp.getMusicService().showPlayView();

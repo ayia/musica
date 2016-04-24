@@ -79,24 +79,24 @@ public class MainActivity extends BaseActivity {
 
 		}
 		LoadMiniPlayer();
-	
-		
-		
-		
+
 	}
+
 	@Override
 	public void onResume() {
-	    super.onResume();  // Always call the superclass method first
+		super.onResume(); // Always call the superclass method first
 
 		LoadMiniPlayer();
 	}
-	
+
 	private void initview() {
 		// TODO Auto-generated method stub
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
 			toolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
+//			getSupportActionBar().setDisplayShowHomeEnabled(true);
+//			getSupportActionBar().setIcon(R.drawable.ic_launcher_white);
 		}
 
 		mTitle = mDrawerTitle = getTitle();
